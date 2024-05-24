@@ -1,7 +1,9 @@
 import React from "react";
+import Router from "./shared/Router";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
-  return <div></div>;
+  return <Router />;
 };
 
 export default App;
