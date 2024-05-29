@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import GlobalStyle from "../GlobalStyle";
 import { useNavigate, useParams } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
-const Detail = ({ selectedExpense, modifying, deleting }) => {
+const Detail = () => {
+  const { selectedExpense, modifying, deleting } = useContext(AppContext);
+
   const [date, setDate] = useState(selectedExpense.date);
   const [item, setItem] = useState(selectedExpense.item);
   const [amount, setAmount] = useState(selectedExpense.amount);
@@ -15,7 +18,7 @@ const Detail = ({ selectedExpense, modifying, deleting }) => {
   useEffect(() => {
     //선택된게 없을 때.. 왜? 이미 존재하는 데이터이면 굳이 불러올 필요가 없기 때문에
     if (!selectedExpense) {
-      const savedExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      const savedExpenses = JSON.parse(localStorage.getItem("expenses"));
       //데이터가 없으면 빈 배열을 반환하기
       const foundExpense = savedExpenses.find((expense) => expense.id === id);
       // 불러온 데이터 객체의 id가 현재 Detail 컴포넌트의 id와 일치하는지 .. 일치하는 내역 찾기!
@@ -40,6 +43,7 @@ const Detail = ({ selectedExpense, modifying, deleting }) => {
     modifying(modifiedExpense);
     navigate("/");
   };
+
   const deleteHandler = () => {
     deleting(selectedExpense.id);
     navigate("/");

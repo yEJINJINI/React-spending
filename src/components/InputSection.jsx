@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { v4 as uuidv4 } from "uuid";
 
-const InputSection = ({ addExpense }) => {
+const InputSection = ({ expenses, setExpenses }) => {
   const [date, setDate] = useState("");
   const [item, setItem] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+
+  //저장버튼 누르면 ..실행함수
+  const addExpense = (expense) => {
+    setExpenses([...expenses, expense]);
+    alert("저장하였습니다!");
+  };
 
   const saveHandler = (e) => {
     e.preventDefault();

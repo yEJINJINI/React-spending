@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from "react";
 import GlobalStyle from "../GlobalStyle";
 import styled from "styled-components";
 import InputSection from "../components/InputSection";
 import MonthBtn from "../components/MonthBtn";
 import MonthDetail from "../components/MonthDetail";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
-const Main = ({ setSelectedExpense }) => {
-  const [selectedMonth, setSelectedMonth] = useState("");
+const Main = () => {
+  const { selectedMonth } = useContext(AppContext);
   const [expenses, setExpenses] = useState(() => {
     const localData = localStorage.getItem("expenses");
     return localData ? JSON.parse(localData) : [];
   });
+
   // 등록 후, data 변화가 생길 때마다 로컬스토리지에 저장하기 ...
   useEffect(() => {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [expenses]);
 
-  const addExpense = (expense) => {
-    setExpenses([...expenses, expense]);
-    alert("저장하였습니다!");
-  };
-  //
   const filteredExpenses = expenses.filter((expense) => {
     const expenseMonth = new Date(expense.date).getMonth() + 1;
     return expenseMonth === selectedMonth;
@@ -31,12 +28,9 @@ const Main = ({ setSelectedExpense }) => {
       <GlobalStyle />
 
       <MainForm>
-        <InputSection addExpense={addExpense} />
-        <MonthBtn setSelectedMonth={setSelectedMonth} />
-        <MonthDetail
-          expenses={filteredExpenses}
-          setSelectedExpense={setSelectedExpense}
-        />
+        <InputSection expenses={expenses} setExpenses={setExpenses} />
+        <MonthBtn />
+        <MonthDetail filteredExpenses={filteredExpenses} />
       </MainForm>
     </Whole>
   );

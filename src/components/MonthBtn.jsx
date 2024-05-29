@@ -1,7 +1,9 @@
-import React from "react";
+import { useContext } from "react";
 import styled from "styled-components";
+import { AppContext } from "../context/AppContext";
 
-const MonthBtn = ({ setSelectedMonth }) => {
+const MonthBtn = ({}) => {
+  const { setSelectedMonth } = useContext(AppContext);
   const months = [1, 2, 3, 4, 5, 6, , 7, 8, 9, 10, 11, 12];
   return (
     <Section>

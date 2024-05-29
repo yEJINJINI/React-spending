@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AppContext } from "../context/AppContext";
 
-const MonthDetail = ({ expenses, setSelectedExpense }) => {
+const MonthDetail = ({ filteredExpenses }) => {
+  const { setSelectedExpense } = useContext(AppContext);
   const navigate = useNavigate();
 
   const clickedHandler = (expense) => {
@@ -12,9 +14,9 @@ const MonthDetail = ({ expenses, setSelectedExpense }) => {
 
   return (
     <Section>
-      {expenses.length > 0 ? (
+      {filteredExpenses.length > 0 ? (
         <Ul>
-          {expenses.map((expense) => (
+          {filteredExpenses.map((expense) => (
             <Li
               key={expense.id}
               onClick={() => {
