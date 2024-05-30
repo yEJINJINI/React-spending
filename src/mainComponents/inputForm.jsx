@@ -2,10 +2,12 @@ import { useContext, useState } from "react";
 import { Section } from "../pages/Main";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { ExpenseContext } from "../contexts/ExpenseContext";
+import { useDispatch } from "react-redux";
+import { addExpense } from "../redux/slices/expensesSlice";
 
 export default function InputForm({ month }) {
-  const { expenses, setExpenses } = useContext(ExpenseContext);
+  const dispatch = useDispatch();
+
   const [newDate, setNewDate] = useState(
     `2024-${String(month).padStart(2, "0")}-01`
   );
@@ -32,7 +34,9 @@ export default function InputForm({ month }) {
       amount: parsedAmount,
       description: newDescription,
     };
-    setExpenses([...expenses, newExpense]);
+
+    dispatch(addExpense(newExpense));
+
     setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
     setNewItem("");
     setNewAmount("");

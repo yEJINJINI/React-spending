@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { ExpenseContext } from "../contexts/ExpenseContext";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteExpense, editExpense } from "../redux/slices/expensesSlice";
 
 export default function Detail() {
-  const { expenses, setExpenses } = useContext(ExpenseContext);
+  const expenses = useSelector((state) => state.expenses);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -15,27 +17,20 @@ export default function Detail() {
   const [amount, setAmount] = useState(selectedExpense.amount);
   const [description, setDescription] = useState(selectedExpense.description);
 
-  const editExpense = () => {
-    const newExpenses = expenses.map((expense) => {
-      if (expense.id !== id) {
-        return expense;
-      } else {
-        return {
-          ...expense,
-          date: date,
-          item: item,
-          amount: amount,
-          description: description,
-        };
-      }
-    });
-    setExpenses(newExpenses);
+  const handleEdit = () => {
+    const newExpense = {
+      id: id,
+      date: date,
+      item: item,
+      amount: amount,
+      description: description,
+    };
+    dispatch(editExpense(newExpense));
     navigate("/");
   };
 
-  const deleteExpense = () => {
-    const newExpenses = expenses.filter((expense) => expense.id !== id);
-    setExpenses(newExpenses);
+  const handleDelete = () => {
+    dispatch(deleteExpense({ id }));
     navigate("/");
   };
 
@@ -82,8 +77,8 @@ export default function Detail() {
         />
       </InputGroup>
       <ButtonGroup>
-        <Button onClick={editExpense}>수정</Button>
-        <Button danger="true" onClick={deleteExpense}>
+        <Button onClick={handleEdit}>수정</Button>
+        <Button danger="true" onClick={handleDelete}>
           삭제
         </Button>
         <BackButton onClick={() => navigate(-1)}>뒤로 가기</BackButton>

@@ -2,11 +2,13 @@ import styled from "styled-components";
 import InputForm from "../mainComponents/inputForm";
 import MonthButton from "../mainComponents/MonthButton";
 import MonthExpenses from "../mainComponents/MonthExpenses";
-import { useContext, useState } from "react";
-import { ExpenseContext } from "../contexts/ExpenseContext";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function Main() {
-  const { expenses } = useContext(ExpenseContext);
+  const expenses = useSelector((state) => state.expenses);
+  console.log(expenses);
+
   const [month, setMonth] = useState(1);
 
   const filteredExpenses = expenses.filter(
