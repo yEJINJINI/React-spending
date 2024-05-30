@@ -2,9 +2,11 @@ import styled from "styled-components";
 import InputForm from "../mainComponents/inputForm";
 import MonthButton from "../mainComponents/MonthButton";
 import MonthExpenses from "../mainComponents/MonthExpenses";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ExpenseContext } from "../contexts/ExpenseContext";
 
-export default function Main({ expenses, setExpenses }) {
+export default function Main() {
+  const { expenses } = useContext(ExpenseContext);
   const [month, setMonth] = useState(1);
 
   const filteredExpenses = expenses.filter(
@@ -13,7 +15,7 @@ export default function Main({ expenses, setExpenses }) {
 
   return (
     <Container>
-      <InputForm month={month} expenses={expenses} setExpenses={setExpenses} />
+      <InputForm month={month} />
       <MonthButton month={month} setMonth={setMonth} />
       <MonthExpenses expenses={filteredExpenses} />
     </Container>

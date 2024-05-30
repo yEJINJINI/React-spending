@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ExpenseContext } from "../contexts/ExpenseContext";
 
-export default function Detail({ expenses, setExpenses }) {
+export default function Detail() {
+  const { expenses, setExpenses } = useContext(ExpenseContext);
   const navigate = useNavigate();
   const { id } = useParams();
 

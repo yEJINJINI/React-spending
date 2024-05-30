@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Section } from "../pages/Main";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import { ExpenseContext } from "../contexts/ExpenseContext";
 
-export default function InputForm({ month, expenses, setExpenses }) {
+export default function InputForm({ month }) {
+  const { expenses, setExpenses } = useContext(ExpenseContext);
   const [newDate, setNewDate] = useState(
     `2024-${String(month).padStart(2, "0")}-01`
   );
